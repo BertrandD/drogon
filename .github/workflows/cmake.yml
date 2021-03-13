@@ -102,6 +102,7 @@ jobs:
         pushd 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\'
         cmd /c "vcvars64.bat&set" |
         foreach {
+          write-host $_
           if ($_ -match "=") {
             $v = $_.split("="); set-item -force -path "ENV:\$($v[0])"  -value "$($v[1])"
           }
@@ -109,7 +110,7 @@ jobs:
         popd
         write-host "`nVisual Studio Command Prompt variables set."
 
-        conan install .. -s compiler="Visual Studio" -s compiler.version=16
+        conan install .. -s compiler="Visual Studio" -s compiler.version=16 -g cmake_paths
         $orm="ON"
         $shared="OFF"
         if ("${{ matrix.link }}" -eq "SHARED")
@@ -117,7 +118,9 @@ jobs:
           $orm="OFF"
           $shared="ON"
         }
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+        $CC=cl
+        $CXX=cl
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
 
     - name: Create Build Environment & Configure Cmake
       # Some projects don't allow in-source building, so create a separate build directory
