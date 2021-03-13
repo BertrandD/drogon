@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    name: ${{matrix.buildname}}
+    name: '${{matrix.buildname}} - ${{matrix.shared}}'
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
@@ -20,22 +20,22 @@ jobs:
         shared: ['ON', 'OFF']
         include:
           - os: ubuntu-20.04
-            buildname: 'ubuntu-20.04/gcc ${{matrix.shared}}'
+            buildname: 'ubuntu-20.04/gcc'
             triplet: x64-linux
             compiler: gcc_64
           - os: ubuntu-20.04
-            buildname: 'ubuntu-20.04/gcc-10 ${{matrix.shared}}'
+            buildname: 'ubuntu-20.04/gcc-10'
             triplet: x64-linux
           - os: ubuntu-16.04
-            buildname: 'ubuntu-16.04/gcc ${{matrix.shared}}'
+            buildname: 'ubuntu-16.04/gcc'
             triplet: x64-linux
             compiler: gcc_64
           - os: macos-latest
-            buildname: 'macos/clang ${{matrix.shared}}'
+            buildname: 'macos/clang'
             triplet: x64-osx
             compiler: clang_64
           - os: windows-latest
-            buildname: 'windows/msvc ${{matrix.shared}}'
+            buildname: 'windows/msvc'
 
     steps:
     - name: Checkout Drogon source code
