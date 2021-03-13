@@ -2,7 +2,7 @@ name: Build Drogon
 
 on:
   push:
-    branches: [master]
+    branches: [master, windows-ci]
   pull_request:
   workflow_dispatch:
 
@@ -121,9 +121,20 @@ jobs:
       env:
         CC: gcc-10
         CXX: g++-10
-    - name: Build
+
+    - name: (Windows) Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       shell: bash
+      if: runner.os == 'Windows'
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        cd build
+        cmake --build . --target install --parallel
+
+    - name: (Linux) Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      shell: bash
+      if: runner.os != 'Windows'
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
         cd build
