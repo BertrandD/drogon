@@ -49,7 +49,7 @@ jobs:
     - name: (windows) Install dependencies
       if: runner.os == 'windows'
       run: |
-        vcpkg install jsoncpp zlib openssl
+        vcpkg install jsoncpp zlib
 
     - name: (macOS) Install dependencies
       if: runner.os == 'macOS'
