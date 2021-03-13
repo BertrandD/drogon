@@ -99,9 +99,13 @@ jobs:
           CC: cl
           CXX: cl
       run: |
-        C:/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat
+        "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         conan install .. -scompiler="Visual Studio" -scompiler.version=16
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=OFF -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=OFF -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+        set orm="ON"
+        set shared="OFF"
+        if ${{ matrix.link }}==SHARED set orm=OFF
+        if ${{ matrix.link }}==SHARED set shared=ON
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=%orm% -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=%shared% -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
 
     - name: Create Build Environment & Configure Cmake
       # Some projects don't allow in-source building, so create a separate build directory
