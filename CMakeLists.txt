@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(drogon)
 
 message(STATUS "compiler: " ${CMAKE_CXX_COMPILER_ID})
+message("** ${CMAKE_BUILD_TYPE}")
 include(CheckCXXSourceRuns)
 check_cxx_source_runs("int main(){return 0;}" not_cross_compiling)
 
@@ -212,7 +213,7 @@ if (BUILD_ORM)
     if (pg_FOUND)
         message(STATUS "libpq inc path:" ${PG_INCLUDE_DIRS})
         message(STATUS "libpq lib:" ${PG_LIBRARIES})
-        target_link_libraries(${PROJECT_NAME} PRIVATE pg_lib)
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${PG_LIBRARIES})
         set(DROGON_SOURCES ${DROGON_SOURCES}
                 orm_lib/src/postgresql_impl/PostgreSQLResultImpl.cc)
         if (LIBPQ_BATCH_MODE)
