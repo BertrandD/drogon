@@ -98,7 +98,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        conan install ..
+        conan install .. -scompiler=Visual Studio -scompiler.version=16
         cmake .. -GNinja -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=${{ matrix.shared }} -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
 
     - name: Create Build Environment & Configure Cmake
