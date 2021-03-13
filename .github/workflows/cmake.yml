@@ -85,6 +85,11 @@ jobs:
         make
         sudo make install
 
+    - name: Create build directory
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+        mkdir build
+
 #    - name: (Windows) Create Build Environment & Configure Cmake
 #      # Some projects don't allow in-source building, so create a separate build directory
 #      # We'll use this as our working directory for all subsequent commands
@@ -101,7 +106,7 @@ jobs:
 
     - name: (Windows) Create Build Environment & Configure Cmake
       shell: cmake -P {0}
-      working-directory: ${{env.GITHUB_WORKSPACE}}
+      working-directory: ${{env.GITHUB_WORKSPACE}}/build
       if: runner.os == 'Windows'
       run: |
         set(ENV{CC} "cl")
@@ -128,9 +133,15 @@ jobs:
 
         execute_process(
           COMMAND
-            mkdir build &&
-            cd build &&
             conan install .. -scompiler="Visual Studio" -scompiler.version=16 &&
+          RESULT_VARIABLE result
+        )
+        if (NOT result EQUAL 0)
+          message(FATAL_ERROR "Bad exit status")
+        endif()
+
+        execute_process(
+          COMMAND
             cmake
               -S ..
               -D CMAKE_BUILD_TYPE=Release
