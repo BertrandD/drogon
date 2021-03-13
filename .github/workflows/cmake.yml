@@ -36,8 +36,6 @@ jobs:
             compiler: clang_64
           - os: windows-latest
             buildname: 'windows/msvc'
-            triplet: x64-osx
-            compiler: clang_64
 
     steps:
     - name: Checkout Drogon source code
@@ -78,7 +76,7 @@ jobs:
         sudo apt install boost1.67
 
     - name: install gtest
-      if: matrix.os != 'windows'
+      if: runner.os != 'Windows'
       run: |
         wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz
         tar xf release-1.10.0.tar.gz
@@ -92,7 +90,7 @@ jobs:
       # We'll use this as our working directory for all subsequent commands
       shell: bash
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      if: matrix.os == 'windows'
+      if: runner.os == 'Windows'
       run: |
         mkdir build
         cd build
@@ -103,7 +101,7 @@ jobs:
       # We'll use this as our working directory for all subsequent commands
       shell: bash
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      if: matrix.buildname != 'ubuntu-20.04/gcc-10' && matrix.os != 'windows'
+      if: matrix.buildname != 'ubuntu-20.04/gcc-10' && runner.os != 'Windows'
       run: |
         mkdir build
         cd build
