@@ -20,22 +20,22 @@ jobs:
         shared: ['ON', 'OFF']
         include:
           - os: ubuntu-20.04
-            buildname: 'ubuntu-20.04/gcc'
+            buildname: 'ubuntu-20.04/gcc ${{matrix.shared}}'
             triplet: x64-linux
             compiler: gcc_64
           - os: ubuntu-20.04
-            buildname: 'ubuntu-20.04/gcc-10'
+            buildname: 'ubuntu-20.04/gcc-10 ${{matrix.shared}}'
             triplet: x64-linux
           - os: ubuntu-16.04
-            buildname: 'ubuntu-16.04/gcc'
+            buildname: 'ubuntu-16.04/gcc ${{matrix.shared}}'
             triplet: x64-linux
             compiler: gcc_64
           - os: macos-latest
-            buildname: 'macos/clang'
+            buildname: 'macos/clang ${{matrix.shared}}'
             triplet: x64-osx
             compiler: clang_64
           - os: windows-latest
-            buildname: 'windows/msvc'
+            buildname: 'windows/msvc ${{matrix.shared}}'
 
     steps:
     - name: Checkout Drogon source code
