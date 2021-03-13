@@ -91,7 +91,7 @@ jobs:
       # We'll use this as our working directory for all subsequent commands
       shell: bash
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      if: matrix.buildname != 'ubuntu-20.04/gcc-10' && shared == true
+      if: matrix.buildname != 'ubuntu-20.04/gcc-10' && matrix.shared == true
       run: |
         mkdir build
         cd build
