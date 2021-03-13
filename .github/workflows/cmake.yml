@@ -92,12 +92,13 @@ jobs:
       shell: bash
       working-directory: ${{env.GITHUB_WORKSPACE}}
       if: runner.os == 'Windows'
+      env:
+        CC: cl
+        CXX: cl
       run: |
         mkdir build
         cd build
         conan install ..
-        set CC=cl
-        set CXX=cl
         cmake .. -GNinja -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=${{ matrix.shared }} -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
 
     - name: Create Build Environment & Configure Cmake
