@@ -94,7 +94,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        conan install jsoncpp/1.9.4 zlib/1.2.11 gtest/1.10.0 sqlite3/3.34.1 libpq/13.2 -g cmake_paths
+        conan install ..
         cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=${{ matrix.shared }} -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
 
     - name: Create Build Environment & Configure Cmake
