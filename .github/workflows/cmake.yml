@@ -132,7 +132,7 @@ jobs:
 
         execute_process(
           COMMAND
-            conan install .. -scompiler="Visual Studio" -scompiler.version=16 &&
+            conan install .. -scompiler="Visual Studio" -scompiler.version=16
           RESULT_VARIABLE result
         )
         if (NOT result EQUAL 0)
