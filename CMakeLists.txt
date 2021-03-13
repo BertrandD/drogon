@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(drogon)
 
 message(STATUS "compiler: " ${CMAKE_CXX_COMPILER_ID})
-message("** ${CMAKE_BUILD_TYPE}")
+
 include(CheckCXXSourceRuns)
 check_cxx_source_runs("int main(){return 0;}" not_cross_compiling)
 
