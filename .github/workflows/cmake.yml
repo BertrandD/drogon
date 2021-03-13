@@ -94,6 +94,7 @@ jobs:
       run: |
         mkdir build
         cd build
+        C:/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat
         conan install .. -scompiler="Visual Studio" -scompiler.version=16
         [[ ${{ matrix.link }} == "SHARED" ]] && orm="OFF" && shared="ON" || (orm="ON" && shared="OFF")
         cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
