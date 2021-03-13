@@ -104,7 +104,7 @@ jobs:
         conan install .. -scompiler="Visual Studio" -scompiler.version=16
         $orm="ON"
         $shared="OFF"
-        if ("${{ matrix.link }}" -e "SHARED")
+        if ("${{ matrix.link }}" -eq "SHARED")
         {
           $orm="OFF"
           $shared="ON"
