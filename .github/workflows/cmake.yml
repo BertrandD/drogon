@@ -89,71 +89,22 @@ jobs:
       run: |
         mkdir build
 
-#    - name: (Windows) Create Build Environment & Configure Cmake
-#      # Some projects don't allow in-source building, so create a separate build directory
-#      # We'll use this as our working directory for all subsequent commands
-#      shell: bash
-#      working-directory: ${{env.GITHUB_WORKSPACE}}
-#      if: runner.os == 'Windows'
-#      run: |
-#        mkdir build
-#        cd build
-#        C:/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat
-#        conan install .. -scompiler="Visual Studio" -scompiler.version=16
-#        [[ ${{ matrix.link }} == "SHARED" ]] && orm="OFF" && shared="ON" || (orm="ON" && shared="OFF")
-#        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-
     - name: (Windows) Create Build Environment & Configure Cmake
-      shell: cmake -P {0}
-      working-directory: ./build
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      shell: bash
+      working-directory: ${{env.GITHUB_WORKSPACE}}
       if: runner.os == 'Windows'
+      env:
+          CC: cl
+          CXX: cl
       run: |
-        set(ENV{CC} "cl")
-        set(ENV{CXX} "cl")
-
-        execute_process(
-          COMMAND "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat" && set
-          OUTPUT_FILE environment_script_output.txt
-        )
-        file(STRINGS environment_script_output.txt output_lines)
-        foreach(line IN LISTS output_lines)
-          if (line MATCHES "^([a-zA-Z0-9_-]+)=(.*)$")
-            set(ENV{${CMAKE_MATCH_1}} "${CMAKE_MATCH_2}")
-          endif()
-        endforeach()
-
-        if("${{ matrix.link }}" STREQUAL "SHARED")
-          set(orm OFF)
-          set(shared ON)
-        else()
-          set(orm ON)
-          set(shared OFF)
-        endif()
-
-        execute_process(
-          COMMAND
-            conan install .. -scompiler=Visual\ Studio -scompiler.version=16
-          RESULT_VARIABLE result
-        )
-        if (NOT result EQUAL 0)
-          message(FATAL_ERROR "Bad exit status")
-        endif()
-
-        execute_process(
-          COMMAND
-            cmake
-              -S ..
-              -D CMAKE_BUILD_TYPE=Release
-              -G "Unix Makefiles"
-              -D BUILD_ORM=${orm}
-              -D BUILD_TESTING=on
-              -D BUILD_DROGON_SHARED=${shared}
-              -D CMAKE_TOOLCHAIN_FILE=conan_paths.cmake
-          RESULT_VARIABLE result
-        )
-        if (NOT result EQUAL 0)
-          message(FATAL_ERROR "Bad exit status")
-        endif()
+        mkdir build
+        cd build
+        C:/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat
+        conan install .. -scompiler="Visual Studio" -scompiler.version=16
+        [[ ${{ matrix.link }} == "SHARED" ]] && orm="OFF" && shared="ON" || (orm="ON" && shared="OFF")
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
 
     - name: Create Build Environment & Configure Cmake
       # Some projects don't allow in-source building, so create a separate build directory
