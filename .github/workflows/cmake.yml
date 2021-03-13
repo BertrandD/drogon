@@ -86,18 +86,7 @@ jobs:
         make
         sudo make install
 
-    - name: Create Build Environment & Configure Cmake (shared library)
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      shell: bash
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      if: matrix.buildname != 'ubuntu-20.04/gcc-10' &&  matrix.buildname != 'windows' && matrix.shared == true
-      run: |
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=ON -DCMAKE_CXX_VISIBILITY_PRESET=hidden -DCMAKE_VISIBILITY_INLINES_HIDDEN=1
-
-    - name: Create Build Environment & Configure Cmake (shared library on windows)
+    - name: (Windows - Shared library) Create Build Environment & Configure Cmake
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
       shell: bash
@@ -108,27 +97,39 @@ jobs:
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=ON -DCMAKE_TOOLCHAIN_FILE=D:\src\vcpkg\scripts\buildsystems\vcpkg.cmake
 
-    - name: Create Build Environment & Configure Cmake (static library on Windows)
+    - name: (Windows - Static library) Create Build Environment & Configure Cmake (static library on Windows)
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
       shell: bash
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      if: matrix.buildname != 'ubuntu-20.04/gcc-10'
+      if: matrix.buildname != 'ubuntu-20.04/gcc-10' && matrix.shared == false
       run: |
         mkdir build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on
 
-    - name: Create Build Environment & Configure Cmake
+    - name: (Shared library) Create Build Environment & Configure Cmake
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
       shell: bash
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      if: matrix.buildname != 'ubuntu-20.04/gcc-10'
+      if: matrix.buildname != 'ubuntu-20.04/gcc-10' &&  matrix.buildname != 'windows' && matrix.shared == true
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=ON -DCMAKE_CXX_VISIBILITY_PRESET=hidden -DCMAKE_VISIBILITY_INLINES_HIDDEN=1
+
+    - name: (Static library) Create Build Environment & Configure Cmake
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      shell: bash
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      if: matrix.buildname != 'ubuntu-20.04/gcc-10' &&  matrix.buildname != 'windows' && matrix.shared == false
       run: |
         mkdir build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on
+
     - name: Create Build Environment & Configure Cmake (gcc-10)
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
