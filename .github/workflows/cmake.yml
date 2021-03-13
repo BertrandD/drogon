@@ -12,12 +12,12 @@ env:
 
 jobs:
   build:
-    name: '${{matrix.buildname}} - ${{matrix.shared}}'
+    name: '${{matrix.buildname}} - ${{matrix.link}}'
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
       matrix:
-        shared: ['ON', 'OFF']
+        link: ['static', 'shared']
         include:
           - os: ubuntu-20.04
             buildname: 'ubuntu-20.04/gcc'
@@ -95,8 +95,8 @@ jobs:
         mkdir build
         cd build
         conan install .. -scompiler="Visual Studio" -scompiler.version=16
-        [[ ${{ matrix.shared }} == "ON" ]] && orm="OFF" || orm="ON"
-        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=${{ matrix.shared }} -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
+        [[ ${{ matrix.link }} == "SHARED" ]] && orm="OFF" && shared="ON" || (orm="ON" && shared="OFF")
+        cmake .. -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake
 
     - name: Create Build Environment & Configure Cmake
       # Some projects don't allow in-source building, so create a separate build directory
@@ -107,7 +107,8 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=${{ matrix.shared }} -DCMAKE_CXX_VISIBILITY_PRESET=hidden -DCMAKE_VISIBILITY_INLINES_HIDDEN=1
+        [[ ${{ matrix.link }} == "SHARED" ]] && shared="ON" || shared="OFF"
+        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_CXX_VISIBILITY_PRESET=hidden -DCMAKE_VISIBILITY_INLINES_HIDDEN=1
 
     - name: Create Build Environment & Configure Cmake (gcc-10)
       # Some projects don't allow in-source building, so create a separate build directory
