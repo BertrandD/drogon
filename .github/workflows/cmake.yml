@@ -22,8 +22,13 @@ jobs:
           - os: windows-latest
             buildname: 'windows/msvc'
     steps:
+      - name: Checkout Drogon source code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+
       - name: Install dependencies
-        if: runner.os == 'windows'
         run: |
           pip install conan
 
