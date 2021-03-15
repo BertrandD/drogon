@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
+os='linux'
+if [ "$1" = "-w" ]; then
+  os='windows'
+fi
+
 drogon_ctl_exec=$(pwd)/build/drogon_ctl/drogon_ctl
 echo ${drogon_ctl_exec}
 cd build/examples/
 
-if [ "$1" = "-w" ]; then
+if [ $os = "windows"]
   cd Debug
 fi
-
-pwd
-ls -la
 
 make_program=make
 make_flags=''
@@ -37,7 +39,9 @@ else
 fi
 
 #Make webapp run as a daemon
-sed -i -e "s/\"run_as_daemon.*$/\"run_as_daemon\": true\,/" config.example.json
+if [ $os = "windowss"]
+  sed -i -e "s/\"run_as_daemon.*$/\"run_as_daemon\": true\,/" config.example.json
+fi
 sed -i -e "s/\"relaunch_on_error.*$/\"relaunch_on_error\": true\,/" config.example.json
 sed -i -e "s/\"threads_num.*$/\"threads_num\": 0\,/" config.example.json
 sed -i -e "s/\"use_brotli.*$/\"use_brotli\": true\,/" config.example.json
@@ -53,6 +57,7 @@ fi
 
 killall -9 webapp
 ./webapp
+webapppid=$!
 
 sleep 4
 
@@ -90,7 +95,7 @@ if [ $? -ne 0 ]; then
     exit -1
 fi
 
-killall -9 webapp
+kill -9 $webapppid
 
 #Test drogon_ctl
 echo "Test the drogon_ctl"
