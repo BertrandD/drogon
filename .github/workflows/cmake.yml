@@ -48,8 +48,6 @@ jobs:
         run: |
           &'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat'
           cl
-#          [[ ${{ matrix.link }} == "SHARED" ]] && shared="ON" || shared="OFF"
-#          [[ ${{ matrix.link }} == "SHARED" ]] && orm="ON" || orm="OFF"
           cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
 
       - name: Build
