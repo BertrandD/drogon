@@ -15,7 +15,7 @@ jobs:
     name: '${{matrix.buildname}} - ${{matrix.link}}'
     runs-on: ${{matrix.os}}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         link: [ 'static', 'shared' ]
         include:
@@ -40,7 +40,7 @@ jobs:
         shell: pwsh
         working-directory: ./build
         run: |
-          conan install .. -s compiler="Visual Studio" -s compiler.version=16 -g cmake_paths
+          conan install .. -s compiler="Visual Studio" -s compiler.version=16 -sbuild_type=Debug -g cmake_paths
 
       - name: Create Build Environment & Configure Cmake
         shell: bash
