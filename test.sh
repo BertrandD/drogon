@@ -4,6 +4,13 @@ drogon_ctl_exec=$(pwd)/build/drogon_ctl/drogon_ctl
 echo ${drogon_ctl_exec}
 cd build/examples/
 
+if [ "$1" = "-w" ]; then
+  cd Debug
+fi
+
+pwd
+ls -la
+
 make_program=make
 make_flags=''
 cmake_gen=''
@@ -91,6 +98,7 @@ rm -rf drogon_test
 
 ${drogon_ctl_exec} create project drogon_test
 
+ls -la
 cd drogon_test/controllers
 
 ${drogon_ctl_exec} create controller Test::SimpleCtrl

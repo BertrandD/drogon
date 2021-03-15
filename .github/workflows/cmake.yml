@@ -15,7 +15,7 @@ jobs:
     name: '${{matrix.buildname}} - ${{matrix.link}}'
     runs-on: ${{matrix.os}}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         link: [ 'static', 'shared' ]
         include:
@@ -60,7 +60,7 @@ jobs:
       - name: Test
         working-directory: ${{env.GITHUB_WORKSPACE}}
         shell: bash
-        run: ./test.sh
+        run: ./test.sh -w
 
   unix:
     name: '${{matrix.buildname}} - ${{matrix.link}}'
