@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(drogon)
 
+message("**** Drogon - ${CMAKE_BUILD_TYPE}")
+
 message(STATUS "compiler: " ${CMAKE_CXX_COMPILER_ID})
 
 include(CheckCXXSourceRuns)
