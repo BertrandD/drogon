@@ -60,20 +60,28 @@ jobs:
         run: ./test.sh -w
 
   unix:
-    name: '${{matrix.buildname}} - ${{matrix.link}}'
+    name: '${{matrix.buildname}}'
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
-        triplet: [x64-linux]
-        link: ['static', 'shared']
         include:
-          - buildname: 'ubuntu-20.04/gcc'
+          - os: ubuntu-20.04
+            buildname: 'ubuntu-20.04/gcc'
+            link: shared
+            triplet: x64-linux
             compiler: gcc_64
-          - buildname: 'ubuntu-20.04/gcc-10'
+          - os: ubuntu-20.04
+            buildname: 'ubuntu-20.04/gcc'
+            link: static
+            triplet: x64-linux
+            compiler: gcc_64
+          - os: ubuntu-20.04
+            buildname: 'ubuntu-20.04/gcc-10'
+            triplet: x64-linux
           - os: ubuntu-16.04
             buildname: 'ubuntu-16.04/gcc'
+            triplet: x64-linux
             compiler: gcc_64
           - os: macos-latest
             buildname: 'macos/clang'
