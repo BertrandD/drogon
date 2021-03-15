@@ -8,6 +8,8 @@ if [ "$1" = "-w" ]; then
   os='windows'
 fi
 
+src_dir=$(pwd)
+
 echo "OS:" $os
 
 if [ $os = "linux" ]; then
@@ -155,6 +157,10 @@ cd ../views
 echo "Hello, world!" >>hello.csp
 
 cd ../build
+if [ $os = "windows"]; then
+  conan install $src_dir -s compiler="Visual Studio" -s compiler.version=16 -sbuild_type=Debug -g cmake_paths
+  cmake_gen=$cmake_gen' -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"'
+fi
 cmake .. $cmake_gen
 
 if [ $? -ne 0 ]; then

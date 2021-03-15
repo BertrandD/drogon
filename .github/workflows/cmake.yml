@@ -60,7 +60,7 @@ jobs:
         run: ./test.sh -w
 
   unix:
-    name: '${{matrix.buildname}}'
+    name: ${{matrix.buildname}}
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
