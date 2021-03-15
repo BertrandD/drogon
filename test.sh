@@ -9,7 +9,7 @@ drogon_ctl_exec=$(pwd)/build/drogon_ctl/drogon_ctl
 echo ${drogon_ctl_exec}
 cd build/examples/
 
-if [ $os = "windows"]
+if [ $os = "windows" ]; then
   cd Debug
 fi
 
@@ -39,7 +39,7 @@ else
 fi
 
 #Make webapp run as a daemon
-if [ $os = "windowss"]
+if [ $os = "windows" ]; then
   sed -i -e "s/\"run_as_daemon.*$/\"run_as_daemon\": true\,/" config.example.json
 fi
 sed -i -e "s/\"relaunch_on_error.*$/\"relaunch_on_error\": true\,/" config.example.json
@@ -56,7 +56,7 @@ if [ ! -f "webapp_test" ]; then
 fi
 
 killall -9 webapp
-./webapp
+./webapp &
 webapppid=$!
 
 sleep 4
