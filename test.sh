@@ -159,7 +159,7 @@ echo "Hello, world!" >>hello.csp
 cd ../build
 if [ $os = "windows" ]; then
   conan install $src_dir -s compiler="Visual Studio" -s compiler.version=16 -sbuild_type=Debug -g cmake_paths
-  cmake_gen=$cmake_gen' -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake' -DCMAKE_INSTALL_PREFIX=$src_dir/install
+  cmake_gen=$cmake_gen' -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake -DCMAKE_INSTALL_PREFIX='$src_dir'/install'
 fi
 cmake .. $cmake_gen
 
