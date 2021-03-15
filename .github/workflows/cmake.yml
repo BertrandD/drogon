@@ -43,11 +43,12 @@ jobs:
           conan install .. -s compiler="Visual Studio" -s compiler.version=16 -g cmake_paths
 
       - name: Create Build Environment & Configure Cmake
-        shell: pwsh
+        shell: bash
         working-directory: ./build
         run: |
-          &'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat'
-          cmake .. -G"Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
+          [[ ${{ matrix.link }} == "SHARED" ]] && shared="ON" || shared="OFF"
+          [[ ${{ matrix.link }} == "SHARED" ]] && orm="ON" || orm="OFF"
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
 
       - name: Build
         working-directory: ${{env.GITHUB_WORKSPACE}}
