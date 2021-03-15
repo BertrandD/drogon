@@ -12,15 +12,12 @@ env:
 
 jobs:
   windows:
-    name: '${{matrix.buildname}} - ${{matrix.link}}'
-    runs-on: ${{matrix.os}}
+    name: 'windows/msvc - ${{matrix.link}}'
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
         link: [ 'static', 'shared' ]
-        include:
-          - os: windows-latest
-            buildname: 'windows/msvc'
     steps:
       - name: Checkout Drogon source code
         uses: actions/checkout@v2
@@ -139,7 +136,7 @@ jobs:
       if: matrix.buildname != 'ubuntu-20.04/gcc-10'
       run: |
         [[ ${{ matrix.link }} == "SHARED" ]] && shared="ON" || shared="OFF"
-        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_CXX_VISIBILITY_PRESET=hidden -DCMAKE_VISIBILITY_INLINES_HIDDEN=1
+        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared
 
     - name: Create Build Environment & Configure Cmake (gcc-10)
       # Some projects don't allow in-source building, so create a separate build directory
@@ -148,7 +145,8 @@ jobs:
       working-directory: ./build
       if: matrix.buildname == 'ubuntu-20.04/gcc-10'
       run: |
-        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DCMAKE_CXX_FLAGS="-fcoroutines"
+        [[ ${{ matrix.link }} == "SHARED" ]] && shared="ON" || shared="OFF"
+        cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=on -DCMAKE_CXX_FLAGS="-fcoroutines" -DBUILD_DROGON_SHARED=$shared
       env:
         CC: gcc-10
         CXX: g++-10

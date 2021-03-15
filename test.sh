@@ -10,7 +10,11 @@ fi
 
 echo "OS:" $os
 
-drogon_ctl_exec=$(pwd)/build/drogon_ctl/drogon_ctl
+if [ $os = "linux" ]; then
+  drogon_ctl_exec=$(pwd)/build/drogon_ctl/drogon_ctl
+else
+  drogon_ctl_exec=$(pwd)/build/drogon_ctl/Debug/drogon_ctl.exe
+fi
 echo ${drogon_ctl_exec}
 cd build/examples/
 
