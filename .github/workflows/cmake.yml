@@ -55,7 +55,7 @@ jobs:
              $orm="OFF"
              $shared="ON"
            }
-           cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
+           cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
 
       - name: Build
         working-directory: ${{env.GITHUB_WORKSPACE}}
