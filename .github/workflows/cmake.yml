@@ -48,7 +48,7 @@ jobs:
         run: |
           &'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat'
           cl
-          cmake .. -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
+          cmake .. -G"Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake"
 
       - name: Build
         working-directory: ${{env.GITHUB_WORKSPACE}}
