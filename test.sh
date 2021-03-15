@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
+echo "First arg:"
+echo $1
+
 os='linux'
 if [ "$1" = "-w" ]; then
   os='windows'
 fi
 
-drogon_ctl_exec=$(pwd)/build/drogon_ctl/drogon_ctl
+echo "OS:" $os
+
+drogon_ctl_exec=$(pwd)/cmake-build-debug/drogon_ctl/drogon_ctl
 echo ${drogon_ctl_exec}
-cd build/examples/
+cd cmake-build-debug/examples/
 
 if [ $os = "windows" ]; then
   cd Debug
