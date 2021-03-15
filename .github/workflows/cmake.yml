@@ -28,11 +28,6 @@ jobs:
           submodules: true
           fetch-depth: 0
 
-      - name: Test
-        working-directory: ${{env.GITHUB_WORKSPACE}}
-        shell: bash
-        run: ./test.sh -w
-
       - name: Install dependencies
         run: |
           pip install conan
@@ -61,6 +56,11 @@ jobs:
         run: |
           cd build
           cmake --build . --target install --parallel
+
+      - name: Test
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        shell: bash
+        run: ./test.sh -w
 
   unix:
     name: '${{matrix.buildname}} - ${{matrix.link}}'

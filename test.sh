@@ -44,7 +44,7 @@ else
 fi
 
 #Make webapp run as a daemon
-if [ $os = "windows" ]; then
+if [ $os = "linux" ]; then
   sed -i -e "s/\"run_as_daemon.*$/\"run_as_daemon\": true\,/" config.example.json
 fi
 sed -i -e "s/\"relaunch_on_error.*$/\"relaunch_on_error\": true\,/" config.example.json
