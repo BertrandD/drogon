@@ -168,7 +168,7 @@ if [ $? -ne 0 ]; then
     exit -1
 fi
 
-cmake --build . --target all -- $make_flags
+cmake --build . -- $make_flags
 
 if [ $? -ne 0 ]; then
     echo "Error in testing"
