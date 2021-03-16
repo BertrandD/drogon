@@ -24,7 +24,6 @@ if [ $os = "windows" ]; then
   cd Debug
 fi
 
-make_program=make
 make_flags=''
 cmake_gen=''
 parallel=1
@@ -43,7 +42,6 @@ case $(nproc) in
 esac
 
 if [ -f /bin/ninja ]; then
-    make_program=ninja
     cmake_gen='-G Ninja'
 else
     make_flags="$make_flags -j$parallel"
@@ -168,7 +166,7 @@ if [ $? -ne 0 ]; then
     exit -1
 fi
 
-$make_program $make_flags
+cmake --build . --target all -- $make_flags
 
 if [ $? -ne 0 ]; then
     echo "Error in testing"
@@ -187,7 +185,7 @@ if [ "$1" = "-t" ]; then
     #unit testing
     cd ../
     echo "Unit testing"
-    $make_program $make_flags test
+    cmake --build . --target test -- $make_flags
     if [ $? -ne 0 ]; then
         echo "Error in unit testing"
         exit -1
