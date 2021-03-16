@@ -41,10 +41,12 @@ case $(nproc) in
     ;;
 esac
 
-if [ -f /bin/ninja ]; then
-    cmake_gen='-G Ninja'
-else
-    make_flags="$make_flags -j$parallel"
+if [ $os = "linux" ]; then
+  if [ -f /bin/ninja ]; then
+      cmake_gen='-G Ninja'
+  else
+      make_flags="$make_flags -j$parallel"
+  fi
 fi
 
 #Make webapp run as a daemon

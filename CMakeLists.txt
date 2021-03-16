@@ -217,7 +217,7 @@ if (BUILD_ORM)
     if (pg_FOUND)
         message(STATUS "libpq inc path:" ${PG_INCLUDE_DIRS})
         message(STATUS "libpq lib:" ${PG_LIBRARIES})
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${PG_LIBRARIES})
+        target_link_libraries(${PROJECT_NAME} PRIVATE pg_lib)
         set(DROGON_SOURCES ${DROGON_SOURCES}
                 orm_lib/src/postgresql_impl/PostgreSQLResultImpl.cc)
         if (LIBPQ_BATCH_MODE)
