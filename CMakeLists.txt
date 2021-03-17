@@ -2,12 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(drogon)
 
-message("**** Drogon - ${CMAKE_BUILD_TYPE}")
-message("**** BUILD_DROGON_SHARED - ${BUILD_DROGON_SHARED}")
-message("**** BUILD_ORM - ${BUILD_ORM}")
-
 message(STATUS "compiler: " ${CMAKE_CXX_COMPILER_ID})
-
 include(CheckCXXSourceRuns)
 check_cxx_source_runs("int main(){return 0;}" not_cross_compiling)
 
