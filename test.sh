@@ -176,9 +176,16 @@ if [ $? -ne 0 ]; then
     exit -1
 fi
 
-if [ ! -f "drogon_test" ]; then
-    echo "Failed to build drogon_test"
-    exit -1
+if [ $os = "linux"]
+  if [ ! -f "drogon_test" ]; then
+      echo "Failed to build drogon_test"
+      exit -1
+  fi
+else
+  if [ ! -f "Debug\drogon_test.exe" ]; then
+      echo "Failed to build drogon_test"
+      exit -1
+  fi
 fi
 
 cd ../../
