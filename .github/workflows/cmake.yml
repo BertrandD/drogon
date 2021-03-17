@@ -44,8 +44,7 @@ jobs:
         working-directory: ./build
         run: |
           [[ ${{ matrix.link }} == "SHARED" ]] && shared="ON" || shared="OFF"
-          [[ ${{ matrix.link }} == "SHARED" ]] && orm="ON" || orm="OFF"
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_ORM=$orm -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake" -DBUILD_CTL=ON -DBUILD_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=../install
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=on -DBUILD_DROGON_SHARED=$shared -DCMAKE_TOOLCHAIN_FILE="conan_paths.cmake" -DBUILD_CTL=ON -DBUILD_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=../install
 
       - name: Build
         working-directory: ${{env.GITHUB_WORKSPACE}}
