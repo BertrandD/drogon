@@ -176,7 +176,7 @@ if [ $? -ne 0 ]; then
     exit -1
 fi
 
-if [ $os = "linux"]
+if [ $os = "linux"]; then
   if [ ! -f "drogon_test" ]; then
       echo "Failed to build drogon_test"
       exit -1
