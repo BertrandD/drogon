@@ -2,7 +2,7 @@ name: Build Drogon
 
 on:
   push:
-    branches: [master, windows-ci]
+    branches: [master]
   pull_request:
   workflow_dispatch:
 
